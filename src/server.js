@@ -20,14 +20,20 @@ app.get("/health", (req, res) => {
 })
 
 
-const startServer = async () => {
-    try {
-        await connectDB();
-        app.listen(3000, () => {
-            console.log(`server is running on port ${ENV.PORT}`)
-        });
-    } catch (error) {
-        console.log("❌Error in starting the server", error)
-    }
-};
-startServer();
+// const startServer = async () => {
+//     try {
+//         await connectDB();
+//         app.listen(3000, () => {
+//             console.log(`server is running on port ${ENV.PORT}`)
+//         });
+//     } catch (error) {
+//         console.log("❌Error in starting the server", error)
+//     }
+// };
+// startServer();
+
+// ✅ Connect DB once (serverless-safe)
+await connectDB();
+
+// ✅ Export app for Vercel
+export default app;
