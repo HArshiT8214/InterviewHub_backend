@@ -20,27 +20,14 @@ app.get("/health", (req, res) => {
 })
 
 
-// const startServer = async () => {
-//     try {
-//         await connectDB();
-//         app.listen(3000, () => {
-//             console.log(`server is running on port ${ENV.PORT}`)
-//         });
-//     } catch (error) {
-//         console.log("❌Error in starting the server", error)
-//     }
-// };
-// startServer();
-
-app.use(async (req, res, next) => {
+const startServer = async () => {
     try {
-      await connectDB();
-      next();
-    } catch (err) {
-      console.error("DB connection failed:", err);
-      return res.status(500).json({ error: "Database connection failed" });
+        await connectDB();
+        app.listen(3000, () => {
+            console.log(`server is running on port ${ENV.PORT}`)
+        });
+    } catch (error) {
+        console.log("❌Error in starting the server", error)
     }
-  });
-
-// ✅ Export app for Vercel
-export default app;
+};
+startServer();
