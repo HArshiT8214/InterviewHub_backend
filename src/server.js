@@ -32,8 +32,15 @@ app.get("/health", (req, res) => {
 // };
 // startServer();
 
-// ✅ Connect DB once (serverless-safe)
-await connectDB();
+app.use(async (req, res, next) => {
+    try {
+      await connectDB();
+      next();
+    } catch (err) {
+      console.error("DB connection failed:", err);
+      return res.status(500).json({ error: "Database connection failed" });
+    }
+  });
 
 // ✅ Export app for Vercel
 export default app;
