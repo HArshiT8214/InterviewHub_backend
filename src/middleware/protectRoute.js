@@ -1,15 +1,15 @@
-import { authenticateRequest } from "@clerk/express";
+import { getAuth } from "@clerk/express";
 import User from "../models/User.js";
 
 export const protectRoute = async (req, res, next) => {
   try {
-    const auth = authenticateRequest(req);
+    const { userId } = getAuth(req);
 
-    if (!auth?.userId) {
+    if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const user = await User.findOne({ clerkId: auth.userId });
+    const user = await User.findOne({ clerkId: userId });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
